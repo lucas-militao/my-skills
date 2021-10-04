@@ -6,6 +6,8 @@ import {
   TextInput,
   Platform,
   FlatList,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 import { Button } from '../components/Button';
@@ -55,34 +57,49 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome, Lucas</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <Text style={styles.title} testID="welcome">
+          Welcome, Lucas
+        </Text>
 
-      <Text style={styles.greetings}>{greeting}</Text>
+        <Text style={styles.greetings}>{greeting}</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="New skill"
-        placeholderTextColor="#999"
-        onChangeText={setNewSkill}
-      />
+        <TextInput
+          testID="input-new"
+          style={styles.input}
+          placeholder="New skill"
+          placeholderTextColor="#999"
+          onChangeText={setNewSkill}
+        />
 
-      <Button title="Add" onPress={handleAddNewSkill} />
+        <Button 
+          testID="button-add"
+          title="Add" 
+          onPress={handleAddNewSkill} 
+        />
 
-      <Text style={[styles.title, { marginVertical: 50 }]}>My Skills</Text>
+        <Text style={[styles.title, { marginVertical: 50 }]} testID="list-title">
+          My Skills
+        </Text>
 
-      <FlatList
-        data={mySkills}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <SkillCard
-            skill={item.name}
-            onPress={() => handleRemoveSkill(item.id)}
+        {
+          mySkills &&
+          <FlatList
+            testID="flat-list-skills"
+            data={mySkills}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <SkillCard
+                skill={item.name}
+                onPress={() => handleRemoveSkill(item.id)}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
           />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+        }
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
