@@ -24,20 +24,13 @@ export default function Home() {
   const [greeting, setGreeting] = useState("");
 
   function handleAddNewSkill() {
-    showLog();
 
     const data = {
       id: String(new Date().getTime()),
       name: newSkill,
     };
 
-    console.log("New skill: ", data);
-
     setMySkills((oldState) => [...oldState, data]);
-  }
-
-  function showLog() {
-    console.log('passou por aqui');
   }
 
   function handleRemoveSkill(id: string) {
